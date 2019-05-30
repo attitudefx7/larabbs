@@ -1,0 +1,60 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+// page
+Route::get('/', 'PageController@root')->name('root');
+
+// test
+Route::get('/test', 'TestController@test');
+
+Auth::routes();
+/**
+ * // Authentication Routes...
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+// Registration Routes...
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'Auth\RegisterController@register');
+
+// Password Reset Routes...
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+ */
+
+// user
+Route::resource('user', 'UserController', ['only' => ['show', 'update', 'edit']]);
+/**
+ * Route::get('/user/{user}', 'UserController@show')->name('user.show')
+ * Route::get('/user/{user}/edit', 'UserController@edit')->name('user.edit')
+ * Route::patch('/user/{user}', 'UserController@update')->name('user.update')
+ */
+
+
+Route::resource('projects', 'ProjectsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
+Route::resource('topics', 'TopicsController', ['only' => ['index', 'create', 'store', 'update', 'edit', 'destroy']]);
+Route::get('topics/{topic}/{slug?}', 'TopicsController@show')->name('topics.show');
+Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
+
+// upload_images
+Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');
+Route::resource('replies', 'RepliesController', ['only' => ['store', 'destroy']]);
+
+Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
