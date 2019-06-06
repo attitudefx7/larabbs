@@ -13,9 +13,19 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            // add your listeners (aka providers) here
+            'SocialiteProviders\Weixin\WeixinExtendSocialite@handle'
+        ],
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
+        'eloquent.created: Illuminate\Notifications\DatabaseNotification' => [
+            'App\Listeners\PushNotification',
+        ],
+//        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+//            'SocialiteProviders\Weixin\WeixinExtendSocialite@handle',
+//        ],
     ];
 
     /**
